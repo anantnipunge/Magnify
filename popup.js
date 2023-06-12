@@ -11,4 +11,10 @@ chrome.runtime.sendMessage({ action: 'getStats' }, function (response) {
     }
 
     statsDiv.innerHTML = statsHTML;
+
+    var totalTodayDiv = document.getElementById('total-today');
+    var totalToday = response.totalToday;
+    totalTodayDiv.innerText = 'Total time today: ' + totalToday + ' minutes';
+
+    
 });

@@ -1,21 +1,16 @@
 var websiteTimes = {};
 var activeTabId = null;
 var lastActivatedTime = null;
-var totalChromeTime = 0;
-var currentDay = new Date().getDay(); // Get the current day
+var totalTimeToday = 0;
 
-// Function to reset the websiteTimes and totalChromeTime at the start of a new day
-function resetStatsAtNewDay() {
-    var today = new Date().getDay();
-    if (today !== currentDay) {
-        websiteTimes = {};
-        totalChromeTime = 0;
-        currentDay = today;
-    }
-    setTimeout(resetStatsAtNewDay, 60 * 60 * 1000); // Check every hour for new day
+// Function to reset the websiteTimes after 12 hours
+function resetWebsiteTimes() {
+    websiteTimes = {};
+    totalTimeToday = 0;
+    setTimeout(resetWebsiteTimes, 12 * 60 * 60 * 1000); // Reset after 12 hours
 }
 
-resetStatsAtNewDay(); // Start the reset timer
+resetWebsiteTimes(); // Start the reset timer
 
 // Function to update the time spent on a website
 function updateWebsiteTime(hostname, timeSpent) {
@@ -23,6 +18,7 @@ function updateWebsiteTime(hostname, timeSpent) {
         websiteTimes[hostname] = 0;
     }
     websiteTimes[hostname] += timeSpent;
+    totalTimeToday += timeSpent;
 }
 
 // Function to calculate the time spent on a website
@@ -35,13 +31,6 @@ function calculateTimeSpent() {
             updateWebsiteTime(hostname, timeSpent);
         });
     }
-}
-
-// Function to calculate the total time spent on Chrome for the current day
-function calculateTotalChromeTime() {
-    var today = new Date().toLocaleDateString();
-    var totalSeconds = Object.values(websiteTimes).reduce((acc, val) => acc + val, 0);
-    totalChromeTime = Math.round(totalSeconds / 60); // Convert to minutes
 }
 
 chrome.tabs.onActivated.addListener(function (activeInfo) {
@@ -67,8 +56,8 @@ chrome.tabs.onRemoved.addListener(function (tabId, removeInfo) {
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     if (request.action === 'getStats') {
-        calculateTotalChromeTime();
         var stats = JSON.stringify(websiteTimes);
-        sendResponse({ stats: stats, totalChromeTime: totalChromeTime });
+        var totalToday = Math.round(totalTimeToday / 60); // Convert to minutes
+        sendResponse({ stats: stats, totalToday: totalToday });
     }
 });
