@@ -58,6 +58,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     if (request.action === 'getStats') {
         var stats = JSON.stringify(websiteTimes);
         var totalToday = Math.round(totalTimeToday / 60); // Convert to minutes
-        sendResponse({ stats: stats, totalToday: totalToday });
+        sendResponse({ stats: stats, totalToday: totalTimeToday });
     }
 });

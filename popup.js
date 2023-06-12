@@ -7,7 +7,7 @@ chrome.runtime.sendMessage({ action: 'getStats' }, function (response) {
     for (var key in statsObj) {
         if (statsObj.hasOwnProperty(key)) {
             var time = statsObj[key];
-            var timeDisplay = time >= 60 ? time + ' seconds' : 'less than 1 minute';
+            var timeDisplay = formatTime(time);
             statsHTML += '<p>' + key + ': ' + timeDisplay + '</p>';
         }
     }
@@ -16,6 +16,42 @@ chrome.runtime.sendMessage({ action: 'getStats' }, function (response) {
 
     var totalTodayDiv = document.getElementById('total-today');
     var totalToday = response.totalToday;
-    var totalTodayDisplay = totalToday >= 1 ? totalToday + ' minutes' : 'less than 1 minute';
+    var totalTodayDisplay = formatTime(totalToday);
     totalTodayDiv.innerText = 'Total time today: ' + totalTodayDisplay;
 });
+
+function formatTime(time) {
+    var hours = Math.floor(time / 3600);
+    var minutes = Math.floor((time - hours * 3600) / 60);
+    var seconds = time - hours * 3600 - minutes * 60;
+
+    var formattedTime = "";
+    if (hours > 0) {
+        formattedTime += hours + " hr ";
+    }
+    if (minutes > 0) {
+        formattedTime += minutes + " min ";
+    }
+    formattedTime += seconds + " sec";
+
+    return formattedTime;
+}
+
+// function convertTimeToHMS(seconds) {
+//     // Get the number of hours
+//     const hours = Math.floor(seconds / 3600);
+
+//     // Get the number of minutes remaining after subtracting the hours from the total seconds
+//     const minutes = Math.floor((seconds - hours * 3600) / 60);
+
+//     // Get the number of seconds remaining after subtracting the hours and minutes from the total seconds
+//     const seconds = seconds - hours * 3600 - minutes * 60;
+
+//     // Return an object with the hours, minutes, and seconds
+//     return {
+//         hours,
+//         minutes,
+//         seconds,
+//     };
+// }
+
