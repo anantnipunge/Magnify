@@ -4,12 +4,25 @@ chrome.runtime.sendMessage({ action: 'getStats' }, function (response) {
     var statsObj = JSON.parse(stats);
     var statsHTML = '';
 
+    // Convert the statsObj into an array of objects for sorting
+    var statsArray = [];
     for (var key in statsObj) {
         if (statsObj.hasOwnProperty(key)) {
-            var time = statsObj[key];
-            var timeDisplay = formatTime(time);
-            statsHTML += '<p>' + key + ': ' + timeDisplay + '</p>';
+            statsArray.push({ website: key, time: statsObj[key] });
         }
+    }
+
+    // Sort the statsArray in descending order based on time
+    statsArray.sort(function (a, b) {
+        return b.time - a.time;
+    });
+
+    // Iterate over the sorted array and generate the HTML
+    for (var i = 0; i < statsArray.length; i++) {
+        var website = statsArray[i].website;
+        var time = statsArray[i].time;
+        var timeDisplay = formatTime(time);
+        statsHTML += '<p>' + website + ': ' + timeDisplay + '</p>';
     }
 
     statsDiv.innerHTML = statsHTML;
