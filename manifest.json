@@ -1,0 +1,34 @@
+{
+    "manifest_version": 2,
+    "name": "Productivity Tracker",
+    "version": "1.0",
+    "description": "A tool that tracks the time you spend on different websites.",
+    "permissions": [
+        "tabs",
+        "activeTab"
+    ],
+    "browser_action": {
+        "default_popup": "popup.html"
+    },
+    "icons": {
+        "16": "icon.png",
+        "48": "icon.png",
+        "128": "icon.png"
+    },
+    "background": {
+        "scripts": [
+            "background.js"
+        ],
+        "persistent": false
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "content.js"
+            ]
+        }
+    ]
+}
