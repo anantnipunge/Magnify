@@ -16,6 +16,7 @@ chrome.runtime.sendMessage({ action: 'getStats' }, function (response) {
     statsArray.sort(function (a, b) {
         return b.time - a.time;
     });
+    
 
     // Iterate over the sorted array and generate the HTML
     for (var i = 0; i < statsArray.length; i++) {

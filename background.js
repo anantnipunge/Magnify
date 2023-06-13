@@ -4,19 +4,19 @@ var lastActivatedTime = null;
 var totalTimeToday = 0;
 
 
-function resetDataAtMidnight() {
-    var now = new Date();
-    var tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
-    var timeUntilMidnight = tomorrow - now;
+// function resetDataAtMidnight() {
+//     var now = new Date();
+//     var tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+//     var timeUntilMidnight = tomorrow - now;
 
-    setTimeout(function () {
-        websiteTimes = {};
-        totalToday = 0;
-        resetDataAtMidnight();
-    }, timeUntilMidnight);
-}
+//     setTimeout(function () {
+//         websiteTimes = {};
+//         totalToday = 0;
+//         resetDataAtMidnight();
+//     }, timeUntilMidnight);
+// }
 
-resetDataAtMidnight();
+// resetDataAtMidnight();
 
 // var today = new Date().toLocaleDateString();
 
@@ -28,13 +28,17 @@ resetDataAtMidnight();
 //     }
 // }
 
-// // Function to reset the websiteTimes after 12 hours
-// function resetWebsiteTimes() {
-//     resetData();
-//     setTimeout(resetWebsiteTimes, 12 * 60 * 60 * 1000); // Reset after 12 hours
-// }
+// Function to reset the websiteTimes after 12 hours
+function resetWebsiteTimes() {
+    // resetData();
+    websiteTimes = {};
+    totalTimeToday = 0;
+    setTimeout(resetWebsiteTimes, 24 * 60 * 60 * 1000); // Reset after 12 hours
+}
 
-// resetWebsiteTimes(); // Start the reset timer
+resetWebsiteTimes(); // Start the reset timer
+
+
 
 // Function to update the time spent on a website
 function updateWebsiteTime(hostname, timeSpent) {
