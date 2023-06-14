@@ -1,3 +1,5 @@
+var faviconApi = 'https://www.google.com/s2/favicons?domain=';
+
 chrome.runtime.sendMessage({ action: 'getStats' }, function (response) {
     var statsDiv = document.getElementById('stats');
     var stats = response.stats;
@@ -16,14 +18,18 @@ chrome.runtime.sendMessage({ action: 'getStats' }, function (response) {
     statsArray.sort(function (a, b) {
         return b.time - a.time;
     });
-    
 
     // Iterate over the sorted array and generate the HTML
     for (var i = 0; i < statsArray.length; i++) {
         var website = statsArray[i].website;
         var time = statsArray[i].time;
         var timeDisplay = formatTime(time);
-        statsHTML += '<p>' + website + ': ' + timeDisplay + '</p>';
+        var faviconUrl = faviconApi + website;
+        statsHTML += '<div class="stats-entry">';
+        statsHTML += '<img class="stats-logo" src="' + faviconUrl + '" alt="Website Logo">';
+        statsHTML += '<span class="stats-website">' + website + '</span>';
+        statsHTML += '<span class="stats-time">' + timeDisplay + '</span>';
+        statsHTML += '</div>';
     }
 
     statsDiv.innerHTML = statsHTML;
