@@ -10,4 +10,5 @@
 
 ## Preview after adding logo
 
-![image](https://github.com/anantnipunge/Extension_Website_Time_tracker/assets/82041920/7ed74646-2ca3-49e2-b158-3c5869a8432a)
+![image](https://github.com/anantnipunge/Extension_Website_Time_tracker/assets/82041920/e3932b78-1534-468d-a8cd-0ca960da2189)
+
